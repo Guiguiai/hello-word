@@ -5,9 +5,9 @@
     <hr>
     <a href="#/page2">page2</a> -->
 
-    <router-link to="/page1">page1</router-link>
+    <router-link to="/page1" active-class="abc">page1</router-link>
     <hr>
-    <router-link to="/page2">page2</router-link>
+    <router-link to="/page2" active-class="abc">page2</router-link>
     <!-- 路由坑 路由视图 -->
     <router-view></router-view>
   </div>
@@ -18,3 +18,9 @@
 export default {
 }
 </script>
+
+<style lang="less">
+.abc {
+  color: green;
+}
+</style>
