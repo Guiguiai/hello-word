@@ -2,44 +2,85 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-// 创建仓库的实例对象
-const store = new Vuex.Store({
-  // 仓库选项对象
-  // 选项  状态
-  state: {
-    title: 'hello-world'
+
+const state = {
+  inputVal: '',
+  todos: []
+}
+
+const getters = {
+
+}
+
+const mutations = {
+  chgInputVal (state, payload) {
+    state.inputVal = payload
   },
 
-  // 针对 state 的二次计算
-  getters: {
-    // key:value
-    // key - getter 的名字
-    // value - 值 函数 要有 return
-    firstTitle (state) {
-      return state.title.split('-')[0]
-    },
+  initTodo (state, todos) {
+    state.todos = todos
+  },
 
-    lastTitle (state) {
-      return state.title.split('-')[1]
+  addTodo (state) {
+    let todo = {
+      name: state.inputVal
     }
+    state.todos.push(todo)
+    state.inputVal = ''
   },
 
-  mutations: {
-    // key:value
-    // key - mutation 的名字
-    // value - 函数 接受到 state
-    chgtitle (state, payload) {
-      state.title = payload.name
-    }
-  },
-
-  actions: {
-
+  delTodo (state, payload) {
+    let index = state.todos.findIndex(item => item.id === payload)
+    state.todos.splice(index, 1)
   }
+}
 
-  // modules: {
+const actions = {
+  fn1 ({ state, commit }) {
+    fetch('http://localhost:3000/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name: state.inputVal })
+    })
+      .then(response => response.json())
+      .then(() => {
+        commit({
+          type: 'addTodo'
+        })
+      })
+  },
 
-  // }
+  initTodos ({ commit }) {
+    fetch('http://localhost:3000/todos')
+      .then(response => response.json())
+      .then(res => {
+        commit('initTodo', res)
+      })
+  },
+
+  delTodo ({ commit, state }, todo) {
+    let newTodos = [...state.todos]
+    commit('delTodo', todo.id)
+    fetch(`http://localhost:3000/todos/${todo.id}`, {
+      method: 'delete'
+    }).then(response => response.json())
+      .then(res => {
+        // 删除成功
+        console.log(res)
+      })
+      .catch(error => {
+        // 删除失败
+        console.log(error.message)
+        commit('initTodo', newTodos)
+      })
+  }
+}
+
+export default new Vuex.Store({
+  state,
+  getters,
+  mutations,
+  actions
 })
-
-export default store
