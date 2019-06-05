@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     firstTitle (state) {
       return state.title.split('-')[0]
     },
+
     lastTitle (state) {
       return state.title.split('-')[1]
     }
@@ -27,12 +28,18 @@ const store = new Vuex.Store({
     // key:value
     // key - mutation 的名字
     // value - 函数 接受到 state
-
+    chgtitle (state, payload) {
+      state.title = payload.name
+    }
   },
 
   actions: {
 
   }
+
+  // modules: {
+
+  // }
 })
 
 export default store
