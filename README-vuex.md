@@ -54,3 +54,22 @@ computed: {
   }
 },
 ```
+
+### 如何修改仓库中的数据
+
+1. 先需要在仓库中定义我们的mutation
+2. 在组件中提交这个mutaion
+   1. this.$store.commit('mutaion的名字', 要传递的参数)
+   2. this.$store.commit({
+     type: mutaion的名字,
+     其余的参数
+   })
+   3. mapMutations 辅助函数
+3. mutation不允许异步代码的
+
+### 如何写异步代码在仓库中 actions
+
+1. 每一个action里面都可以写异步代码，但是action并不能修改state中的数据，真正修改数据的还是 mutaction
+2. 在组件中如何派发这个action
+   1. this.$store.dispatch('action的名字')
+   2. mapActions 辅助函数
