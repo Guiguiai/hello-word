@@ -1,10 +1,5 @@
 <template>
   <div>
-    <h1>page2</h1>
+    <h1>Page2</h1>
   </div>
 </template>
-
-<script>
-export default {
-}
-</script>
