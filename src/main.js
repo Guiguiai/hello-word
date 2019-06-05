@@ -9,7 +9,7 @@ new Vue({
   el: '#app',
   router,
   store,
-  reder (h) {
+  render (h) {
     return h(App)
   }
 })
